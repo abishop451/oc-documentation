@@ -13,9 +13,7 @@ import {
 import { ChevronRight } from '@material-ui/icons'
 import { graphql, Link, StaticQuery } from 'gatsby'
 import React, { Fragment, FunctionComponent, useMemo } from 'react'
-import ocLogo from '../../assets/images/four51-badge--flame-white.svg'
-import ocLogoTypography from '../../assets/images/four51-logo-nopyramid--full-color.svg'
-import { flame } from '../../theme/ocPalette.constants'
+import sitecoreLogo from '../../assets/svg/oclogo_dark.svg'
 import ORDERCLOUD_THEME from '../../theme/theme.constants'
 import ChipLink from '../Shared/ChipLink'
 import DocSearch from '../Shared/DocSearch'
@@ -50,12 +48,32 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(0.5, 1, 1),
     },
     logoIcon: {
-      width: theme.spacing(4),
-      height: theme.spacing(4),
-      marginRight: theme.spacing(1),
+      width: theme.spacing(8),
+      height: theme.spacing(5),
       [theme.breakpoints.down('md')]: {
         marginRight: 'auto',
       },
+    },
+    lockup: {
+      color: theme.palette.text.primary,
+      fontFamily: 'AvenirNextR',
+      margin: theme.spacing(0, 0, -0.25),
+      '& > span': {
+        display: 'block',
+      },
+    },
+    sitecoreText: {
+      textTransform: 'uppercase',
+      fontSize: 10,
+      lineHeight: '0.8em',
+    },
+    ordercloudText: {
+      fontSize: 16,
+      lineHeight: '1em',
+    },
+    trademark: {
+      fontSize: 5,
+      float: 'right',
     },
     logoTypography: {
       display: 'none',
@@ -64,8 +82,11 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'block',
       },
     },
+    appBar: {
+      backgroundColor: theme.palette.background.paper,
+    },
     appBarSecondary: {
-      backgroundColor: `rgba(0, 0, 0, 0.25)`,
+      backgroundColor: theme.palette.grey[700],
       '& a': {
         color: theme.palette.getContrastText(theme.palette.primary.dark),
         textDecoration: 'none',
@@ -90,9 +111,11 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     registerCta: {
+      height: '100%',
       marginRight: '0 !important',
-      color: `${flame[600]} !important`,
-      fontWeight: 'bold',
+      padding: theme.spacing(1.5, 1, 1.5, 2),
+      background: `${theme.palette.secondary.main} !important`,
+      color: `${theme.palette.secondary.contrastText} !important`,
       display: 'flex',
       flexFlow: 'row nowrap',
       alignItems: 'center',
@@ -132,47 +155,12 @@ const HeaderContent: FunctionComponent<HeaderContentProps> = ({
   return (
     <Fragment>
       <div className={classes.root}>
-        <AppBar position="relative">
-          <Container maxWidth="lg">
-            <Toolbar disableGutters>
-              <Link to="/" className={classes.logo}>
-                <img className={classes.logoIcon} src={ocLogo}></img>
-                <img
-                  className={classes.logoTypography}
-                  src={ocLogoTypography}
-                ></img>
-              </Link>
-              <Hidden smDown>
-                <div className={classes.spacer} />
-
-                <ChipLink
-                  color="secondary"
-                  label={`v${currentApiVersion}`}
-                  to={`/release-notes/v${latestReleaseNoteVersion}`}
-                />
-              </Hidden>
-              <div className={classes.grow} />
-              <Hidden smDown>
-                <Button
-                  onClick={() => navigate('')}
-                  variant="contained"
-                  color="secondary"
-                >
-                  Portal
-                </Button>
-                <div className={classes.spacer} />
-              </Hidden>
-              <DocSearch
-                classes={{
-                  searchBox: classes.searchBox,
-                  searchBoxInput: classes.searchBoxInput,
-                }}
-                placeholder={isMobile && 'Search...'}
-                darkMode={true}
-                noPopper={isMobile}
-              ></DocSearch>
-            </Toolbar>
-          </Container>
+        <AppBar
+          position="relative"
+          color="default"
+          elevation={0}
+          className={classes.appBar}
+        >
           <Hidden xsDown>
             <div className={classes.appBarSecondary}>
               <Container maxWidth="lg">
@@ -192,6 +180,46 @@ const HeaderContent: FunctionComponent<HeaderContentProps> = ({
               </Container>
             </div>
           </Hidden>
+          <Container maxWidth="lg">
+            <Toolbar disableGutters>
+              <Link to="/" className={classes.logo}>
+                <img className={classes.logoIcon} src={sitecoreLogo}></img>
+                <h1 className={classes.lockup}>
+                  <span className={classes.trademark}>TM</span>
+                  <span className={classes.sitecoreText}>Sitecore</span>
+                  <span className={classes.ordercloudText}>OrderCloud</span>
+                </h1>
+              </Link>
+              <Hidden smDown>
+                <Button
+                  onClick={() => navigate('')}
+                  variant="outlined"
+                  color="primary"
+                >
+                  Portal
+                </Button>
+                <div className={classes.spacer} />
+              </Hidden>
+              <div className={classes.grow} />
+              <DocSearch
+                classes={{
+                  searchBox: classes.searchBox,
+                  searchBoxInput: classes.searchBoxInput,
+                }}
+                placeholder={isMobile && 'Search...'}
+                darkMode={true}
+                noPopper={isMobile}
+              ></DocSearch>
+              <Hidden smDown>
+                <div className={classes.spacer} />
+
+                <ChipLink
+                  label={`v${currentApiVersion}`}
+                  to={`/release-notes/v${latestReleaseNoteVersion}`}
+                />
+              </Hidden>
+            </Toolbar>
+          </Container>
         </AppBar>
       </div>
     </Fragment>
